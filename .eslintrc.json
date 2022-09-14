@@ -29,6 +29,7 @@
             "error",
             "double"
         ],
+        "no-debugger": "off",
         "no-duplicate-imports": "error"
     },
     "settings": {
