@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import ApiRequest from "./services/api-services";
+import axios from "axios"
+import { useEffect, useState } from "react"
+import ApiRequest from "./services/ApiServices/api-services"
 
 const collections = {
   register: {
@@ -37,37 +37,37 @@ const collections = {
     controllerName: "http://localhost:6969/api/permissions/add",
     requestMethod: "POST",
   },
-};
+}
 
 function App() {
-  const [role, setRole] = useState<any>();
-  const [moduleName, setModuleName] = useState<any>();
-  const [allRoles, setRoles] = useState<any>([]);
-  const [allModules, setModules] = useState<any>([]);
-  const [name, setName] = useState<any>("");
-  const [email, setEmail] = useState<any>("");
-  const [password, setPassword] = useState<any>("");
-  const [selectedRoles, setSelectedRoles] = useState<any>();
-  const [selectedModule, setSelectedModule] = useState<any>();
+  const [role, setRole] = useState<any>()
+  const [moduleName, setModuleName] = useState<any>()
+  const [allRoles, setRoles] = useState<any>([])
+  const [allModules, setModules] = useState<any>([])
+  const [name, setName] = useState<any>("")
+  const [email, setEmail] = useState<any>("")
+  const [password, setPassword] = useState<any>("")
+  const [selectedRoles, setSelectedRoles] = useState<any>()
+  const [selectedModule, setSelectedModule] = useState<any>()
 
-  const [roleToAssignModule, setRoleToAssignModule] = useState<any>();
+  const [roleToAssignModule, setRoleToAssignModule] = useState<any>()
 
   const createRole = async () => {
     try {
-      const res = await ApiRequest(collections.role, { name: role }, null);
+      const res = await ApiRequest(collections.role, { name: role }, null)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const fetchAllRoles = async () => {
     try {
-      const res = await ApiRequest(collections.roles, {}, null);
-      setRoles(res.data.data);
+      const res = await ApiRequest(collections.roles, {}, null)
+      setRoles(res.data.data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const registerUser = async () => {
     const detail = {
@@ -75,45 +75,41 @@ function App() {
       email: email,
       password: password,
       role: selectedRoles || [],
-    };
-    try {
-      const res = await ApiRequest(collections.register, { detail }, null);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
     }
-  };
+    try {
+      const res = await ApiRequest(collections.register, { detail }, null)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const createModule = async () => {
     try {
-      const res = await ApiRequest(
-        collections.module,
-        { name: moduleName },
-        null
-      );
+      const res = await ApiRequest(collections.module, { name: moduleName }, null)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const fetchAllModules = async () => {
     try {
-      const res = await ApiRequest(collections.modules, {}, null);
+      const res = await ApiRequest(collections.modules, {}, null)
 
-      setModules(res.data.data);
+      setModules(res.data.data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const assignRoleAModule = () => {
-    console.log("first"); // i am here
-  };
+    console.log("first") // i am here
+  }
 
   useEffect(() => {
-    fetchAllRoles();
-    fetchAllModules();
-  }, []);
+    fetchAllRoles()
+    fetchAllModules()
+  }, [])
   return (
     <>
       <div>
@@ -121,7 +117,7 @@ function App() {
         <input
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          placeholder="Enter Role Name"
+          placeholder='Enter Role Name'
         />
         <button onClick={createRole}>Create Role</button>
       </div>
@@ -129,37 +125,37 @@ function App() {
       <div>
         <h1>Register User</h1>
         <input
-          type="text"
+          type='text'
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter Name"
+          placeholder='Enter Name'
         />
         <input
-          type="text"
+          type='text'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter Email"
+          placeholder='Enter Email'
         />
         <input
-          type="text"
+          type='text'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter Password"
+          placeholder='Enter Password'
         />
-        <label htmlFor="roles">Choose a Role:</label>
+        <label htmlFor='roles'>Choose a Role:</label>
 
         <select
           value={[]}
           onChange={(e) => {
-            let data = [...selectedRoles];
-            data.push(e.target.value);
-            setSelectedRoles(data);
+            const data = [...selectedRoles]
+            data.push(e.target.value)
+            setSelectedRoles(data)
           }}
-          name="roles"
-          id="roles"
+          name='roles'
+          id='roles'
         >
           {allRoles.map((role: any) => (
-            <option value={role._id}>{role.name}</option>
+            <option value={role._id} key={role._id}>{role.name}</option>
           ))}
         </select>
         <button onClick={registerUser}>Assign Role</button>
@@ -170,7 +166,7 @@ function App() {
         <input
           value={moduleName}
           onChange={(e) => setModuleName(e.target.value)}
-          placeholder="Enter Module Name"
+          placeholder='Enter Module Name'
         />
         <button onClick={createModule}>Create Module</button>
       </div>
@@ -182,36 +178,33 @@ function App() {
           <tr style={{ color: "red" }}>Role Name</tr>
 
           {allRoles.map((role: any) => (
-            <tr>
-              <td
-                onClick={() => setRoleToAssignModule(role._id)}
-                key={role._id}
-              >
+            <tr key={role._id}>
+              <td onClick={() => setRoleToAssignModule(role._id)} >
                 {role.name}
               </td>
             </tr>
           ))}
         </table>
 
-        <label style={{ color: "green" }} htmlFor="roles">
+        <label style={{ color: "green" }} htmlFor='roles'>
           Give Permission of modules:
         </label>
 
         <select
           value={allModules}
           onChange={(e) => setSelectedModule(e.target.value)}
-          name="modules"
-          id="modules"
+          name='modules'
+          id='modules'
         >
           {allModules.map((module: any) => (
-            <option value={module._id}>{module.name}</option>
+            <option value={module._id} key={module._id}>{module.name}</option>
           ))}
         </select>
 
         <button onClick={assignRoleAModule}>Assign Role a module</button>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
