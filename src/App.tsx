@@ -3,203 +3,142 @@ import { useEffect, useState } from "react"
 import ApiRequest from "./services/ApiServices/api-services"
 import Select from "react-select"
 import "bootstrap/dist/css/bootstrap.min.css"
-const collections = {
-  register: {
-    controllerName: "http://localhost:6969/api/register",
-    requestMethod: "POST",
-  },
-  login: {
-    controllerName: "http://localhost:6969/api/login",
-    requestMethod: "POST",
-    // reqBodyType:"FORM-DATA"
-  },
-  role: {
-    controllerName: "http://localhost:6969/api/roles/add",
-    requestMethod: "POST",
-    // reqBodyType:"FORM-DATA"
-  },
-  roles: {
-    controllerName: "http://localhost:6969/api/roles/all",
-    requestMethod: "GET",
-  },
-  module: {
-    controllerName: "http://localhost:6969/api/module/add",
-    requestMethod: "POST",
-  },
-  modules: {
-    controllerName: "http://localhost:6969/api/module/all",
-    requestMethod: "GET",
-  },
-  permissions: {
-    controllerName: "http://localhost:6969/api/permissions/all",
-    requestMethod: "GET",
-  },
-  addPermissions: {
-    controllerName: "http://localhost:6969/api/permissions/add",
-    requestMethod: "POST",
-  },
-  allUsers: {
-    controllerName: "http://localhost:6969/api/all-users",
-    requestMethod: "GET",
-  },
-  getUserPermissions: {
-    controllerName: "http://localhost:6969/api/permissions/user",
-    requestMethod: "GET",
-  },
-}
 
-const permissions = ["create", "update", "delete", "read"]
+
 
 function App() {
-  const [role, setRole] = useState<any>()
-  const [moduleName, setModuleName] = useState<any>()
-  const [allRoles, setRoles] = useState<any>([])
-  const [allModules, setModules] = useState<any>([])
-  const [allPermissions, setAllPermissions] = useState<any>([])
-  const [allUsers, setAllUsers] = useState<any>([])
-  const [name, setName] = useState<any>("")
-  const [email, setEmail] = useState<any>("")
-  const [password, setPassword] = useState<any>("")
-  const [selectedRoles, setSelectedRoles] = useState<any[]>([])
-  const [selectedRole, setSelectedRole] = useState<any>()
-  const [selectedModule, setSelectedModule] = useState<any>()
-  const [checkedState, setCheckedState] = useState(new Array(permissions.length).fill(false))
-  const [roleToAssignModule, setRoleToAssignModule] = useState<any>()
+  // const [role, setRole] = useState<any>()
+  // const [moduleName, setModuleName] = useState<any>()
+  // const [allRoles, setRoles] = useState<any>([])
+  // const [allModules, setModules] = useState<any>([])
+  // const [allPermissions, setAllPermissions] = useState<any>([])
+  // const [allUsers, setAllUsers] = useState<any>([])
+  // const [name, setName] = useState<any>("")
+  // const [email, setEmail] = useState<any>("")
+  // const [password, setPassword] = useState<any>("")
+  // const [selectedRoles, setSelectedRoles] = useState<any[]>([])
+  // const [selectedRole, setSelectedRole] = useState<any>()
+  // const [selectedModule, setSelectedModule] = useState<any>()
+  // const [checkedState, setCheckedState] = useState(new Array(permissions.length).fill(false))
+  // const [roleToAssignModule, setRoleToAssignModule] = useState<any>()
 
-  const [logEmail, setLogEmail] = useState<any>("")
-  const [logPassword, setLogPassword] = useState<any>("")
 
-  const createRole = async () => {
-    try {
-      const res = await ApiRequest(collections.role, { name: role }, null)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
-  const fetchAllRoles = async () => {
-    try {
-      const res = await ApiRequest(collections.roles, {}, null)
-      setRoles(res.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const createRole = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.role, { name: role }, null)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const registerUser = async () => {
-    const detail = {
-      name: name,
-      email: email,
-      password: password,
-      roles:
-        selectedRoles.map((role) => {
-          return { name: role.name, id: role._id }
-        }) || [],
-    }
-    try {
-      const res = await ApiRequest(collections.register, { ...detail }, null)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const fetchAllRoles = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.roles, {}, null)
+  //     setRoles(res.data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const loginUser = async () => {
-    const detail = {
-      email: logEmail,
-      password: logPassword,
-    }
-    try {
-      const res = await ApiRequest(collections.login, { ...detail }, null)
-      console.log(res)
-      if (res.status === 200) {
-        localStorage.setItem("accessToken", res.data.data.token)
-        localStorage.setItem("refreshTOken", res.data.data.refreshToken)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const registerUser = async () => {
+  //   const detail = {
+  //     name: name,
+  //     email: email,
+  //     password: password,
+  //     roles:
+  //       selectedRoles.map((role) => {
+  //         return { name: role.name, id: role._id }
+  //       }) || [],
+  //   }
+  //   try {
+  //     const res = await ApiRequest(collections.register, { ...detail }, null)
+  //     console.log(res)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const getUserPermissions = async () => {
-    try {
-      const res = await ApiRequest(collections.getUserPermissions, {}, null)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
-  const createModule = async () => {
-    try {
-      const res = await ApiRequest(collections.module, { name: moduleName }, null)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const getUserPermissions = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.getUserPermissions, {}, null)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const fetchAllModules = async () => {
-    try {
-      const res = await ApiRequest(collections.modules, {}, null)
+  // const createModule = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.module, { name: moduleName }, null)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-      setModules(res.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const fetchAllModules = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.modules, {}, null)
 
-  const assignRoleAModule = async () => {
-    const reqData = {
-      moduleId: selectedModule?._id,
-      moduleName: selectedModule?.name,
-      roleId: selectedRole?._id,
-      roleName: selectedRole?.name,
-      allowCreate: checkedState[0],
-      allowUpdate: checkedState[1],
-      allowDelete: checkedState[2],
-      allowRead: checkedState[3],
-    }
-    try {
-      const res = await ApiRequest(collections.addPermissions, reqData, null)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     setModules(res.data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const fetchAllPermissions = async () => {
-    try {
-      const res = await ApiRequest(collections.permissions, {}, null)
+  // const assignRoleAModule = async () => {
+  //   const reqData = {
+  //     moduleId: selectedModule?._id,
+  //     moduleName: selectedModule?.name,
+  //     roleId: selectedRole?._id,
+  //     roleName: selectedRole?.name,
+  //     allowCreate: checkedState[0],
+  //     allowUpdate: checkedState[1],
+  //     allowDelete: checkedState[2],
+  //     allowRead: checkedState[3],
+  //   }
+  //   try {
+  //     const res = await ApiRequest(collections.addPermissions, reqData, null)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-      setAllPermissions(res.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const fetchAllPermissions = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.permissions, {}, null)
 
-  const fetchAllUsers = async () => {
-    try {
-      const res = await ApiRequest(collections.allUsers, {}, null)
-      setAllUsers(res.data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     setAllPermissions(res.data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const handleOnChange = (position: number) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item,
-    )
-    setCheckedState(updatedCheckedState)
-  }
-  useEffect(() => {
-    fetchAllRoles()
-    fetchAllModules()
-    fetchAllPermissions()
-    fetchAllUsers()
-    getUserPermissions()
-  }, [])
+  // const fetchAllUsers = async () => {
+  //   try {
+  //     const res = await ApiRequest(collections.allUsers, {}, null)
+  //     setAllUsers(res.data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // const handleOnChange = (position: number) => {
+  //   const updatedCheckedState = checkedState.map((item, index) =>
+  //     index === position ? !item : item,
+  //   )
+  //   setCheckedState(updatedCheckedState)
+  // }
+  // useEffect(() => {
+  //   fetchAllRoles()
+  //   fetchAllModules()
+  //   fetchAllPermissions()
+  //   fetchAllUsers()
+  //   getUserPermissions()
+  // }, [])
   return (
     <div className='container'>
-      <div className='mb-5'>
+      {/* <div className='mb-5'>
         <h3>Roles</h3>
         <div className='d-flex align-items-center justify-content-between'>
           <input
@@ -307,32 +246,7 @@ function App() {
           </tbody>
         </table>
       </div>
-      <div className='mb-5'>
-        <h3>Login User</h3>
-        <div className='row gx-2 align-items-center'>
-          <div className='col-3'>
-            <input
-              type='text'
-              className='w-100'
-              value={logEmail}
-              onChange={(e) => setLogEmail(e.target.value)}
-              placeholder='Enter Email'
-            />
-          </div>
-          <div className='col-3'>
-            <input
-              type='text'
-              className='w-100'
-              value={logPassword}
-              onChange={(e) => setLogPassword(e.target.value)}
-              placeholder='Enter Password'
-            />
-          </div>
-          <div className='col text-end'>
-            <button onClick={loginUser}>Login</button>
-          </div>
-        </div>
-      </div>
+
 
       <div className='mb-5'>
         <h3>Module</h3>
@@ -438,7 +352,7 @@ function App() {
             })}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   )
 }
