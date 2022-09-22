@@ -1,26 +1,20 @@
-
-import { useRoutes } from "react-router-dom";
-import { Dashboard, Login } from "./components";
-
+import { useRoutes } from "react-router-dom"
+import { Dashboard, Login } from "./components"
 
 const AppRoutes = () => {
-  let routes = useRoutes([
+  const routes = useRoutes([
     {
       path: "/dashboard",
       element: <Dashboard />,
-      children: [
-       
-      ],
+      children: [],
     },
     {
-      path: "login",
-      element: (
-          <Login />
-      ),
+      path: "/login",
+      element: <Login />,
     },
-  ]);
+  ])
 
-  return routes;
-};
+  return routes
+}
 
-export default AppRoutes;
+export default AppRoutes

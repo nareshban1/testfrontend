@@ -3,8 +3,7 @@ import { useEffect, useState } from "react"
 import ApiRequest from "./services/ApiServices/api-services"
 import Select from "react-select"
 import "bootstrap/dist/css/bootstrap.min.css"
-
-
+import PrivateRoutes from "./routes/PrivateRoutes"
 
 function App() {
   // const [role, setRole] = useState<any>()
@@ -13,16 +12,13 @@ function App() {
   // const [allModules, setModules] = useState<any>([])
   // const [allPermissions, setAllPermissions] = useState<any>([])
   // const [allUsers, setAllUsers] = useState<any>([])
-  // const [name, setName] = useState<any>("")
-  // const [email, setEmail] = useState<any>("")
-  // const [password, setPassword] = useState<any>("")
+
+
   // const [selectedRoles, setSelectedRoles] = useState<any[]>([])
   // const [selectedRole, setSelectedRole] = useState<any>()
   // const [selectedModule, setSelectedModule] = useState<any>()
   // const [checkedState, setCheckedState] = useState(new Array(permissions.length).fill(false))
   // const [roleToAssignModule, setRoleToAssignModule] = useState<any>()
-
-
 
   // const createRole = async () => {
   //   try {
@@ -41,23 +37,6 @@ function App() {
   //   }
   // }
 
-  // const registerUser = async () => {
-  //   const detail = {
-  //     name: name,
-  //     email: email,
-  //     password: password,
-  //     roles:
-  //       selectedRoles.map((role) => {
-  //         return { name: role.name, id: role._id }
-  //       }) || [],
-  //   }
-  //   try {
-  //     const res = await ApiRequest(collections.register, { ...detail }, null)
-  //     console.log(res)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
 
   // const getUserPermissions = async () => {
@@ -168,84 +147,35 @@ function App() {
         </table>
       </div>
 
-      <div className='mb-5'>
-        <h3>Register User</h3>
-        <div className='row gx-2 align-items-center'>
-          <div className='col-2'>
-            <input
-              type='text'
-              className='w-100'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder='Enter Name'
-            />
-          </div>
-          <div className='col-3'>
-            <input
-              type='text'
-              className='w-100'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='Enter Email'
-            />
-          </div>
-          <div className='col-2'>
-            <input
-              type='text'
-              className='w-100'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder='Enter Password'
-            />
-          </div>
-          <div className='col-4'>
-            <Select
-              options={allRoles.map((role: any) => {
-                return { ...role, label: role.name, value: role._id }
-              })}
-              value={selectedRoles}
-              onChange={(value) => {
-                console.log(value)
-                setSelectedRoles([...value])
-              }}
-              placeholder='Select Role'
-              isMulti
-            />
-          </div>
-          <div className='col-1 text-end'>
-            <button onClick={registerUser}>Create</button>
-          </div>
-        </div>
-        <table className='table'>
-          <thead>
-            <tr>
-              <th scope='col'>id</th>
-              <th scope='col'>User Name</th>
-              <th scope='col'>Email</th>
-              <th scope='col'>Roles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allUsers.map((user: any, index: number) => {
-              return (
-                <tr key={user._id}>
-                  <th scope='row'>{index + 1}</th>
-                  <td> {user.name}</td>
-                  <td> {user.email}</td>
-                  <td>
-                    {" "}
-                    {user.roles.map((role: any) => (
-                      <span className='badge bg-secondary me-2' key={role.id}>
-                        {role.name}
-                      </span>
-                    ))}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+             <table className='table'>
+                <thead>
+                    <tr>
+                        <th scope='col'>id</th>
+                        <th scope='col'>User Name</th>
+                        <th scope='col'>Email</th>
+                        <th scope='col'>Roles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {allUsers.map((user: any, index: number) => {
+                        return (
+                            <tr key={user._id}>
+                                <th scope='row'>{index + 1}</th>
+                                <td> {user.name}</td>
+                                <td> {user.email}</td>
+                                <td>
+                                    {" "}
+                                    {user.roles.map((role: any) => (
+                                        <span className='badge bg-secondary me-2' key={role.id}>
+                                            {role.name}
+                                        </span>
+                                    ))}
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
 
 
       <div className='mb-5'>
@@ -353,6 +283,7 @@ function App() {
           </tbody>
         </table>
       </div> */}
+      <PrivateRoutes />
     </div>
   )
 }
