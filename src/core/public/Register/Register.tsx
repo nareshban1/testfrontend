@@ -1,4 +1,3 @@
-import React from "react"
 import { useEffect, useState } from "react"
 import { apiDetails } from "../../../apiroutes/api-controllers"
 import ApiRequest from "../../../services/ApiServices/api-services"
@@ -21,7 +20,7 @@ const Register = () => {
     }
   }
   return (
-    <div className='mb-5'>
+    <div className=''>
       <h3>Register User</h3>
       <div className='row gx-2 align-items-center'>
         <div className='col-2'>

@@ -50,9 +50,9 @@ const ApiRequest = async (apiDetails: any, reqData: any, params: any) => {
   const accessToken = localStorage.getItem("accessToken") || ""
   const headers = getRequestHeaderDetail(reqBodyType, accessToken)
   const transformedRequestData = transformRequestData(apiDetails, reqData)
-
+  const baseURL = process.env.REACT_APP_API_ENDPOINT
   let axiosPayload: AxiosRequestConfig = {
-    baseURL: "",
+    baseURL:baseURL,
     url: controllerName,
     method: requestMethod,
     responseType: "json",
@@ -69,6 +69,16 @@ const ApiRequest = async (apiDetails: any, reqData: any, params: any) => {
     }
   }
 
+  axios.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response?.status === 401) {
+        return getTokenByRefresh(error)
+      }
+      return Promise.reject(error)
+    },
+  )
+
   const apiResponse = axios
     .request(axiosPayload)
     .then((response: any) => response)
@@ -84,6 +94,55 @@ export default ApiRequest
 const basicAuth = {
   username: "username",
   password: "secret",
+}
+
+const getTokenByRefresh = (error: AxiosError) => {
+  const originalRequest = error.config
+
+  const responseError = error.response
+  const localAccessToken = localStorage.getItem("accessToken") || ""
+  const localRefreshToken = localStorage.getItem("refreshToken") || ""
+
+  const requestUrl = ""
+
+  const requestBody = new FormData()
+  requestBody.append("grant_type", "refresh_token")
+  requestBody.append("userId", localRefreshToken)
+  requestBody.append("refreshToken", localRefreshToken)
+  return axios
+    .request({
+      url: requestUrl,
+      method: "POST",
+      auth: basicAuth,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: requestBody,
+    })
+    .then((res) => {
+      const newRequest = { ...originalRequest }
+
+      if (newRequest.headers) newRequest.headers.Authorization = "Bearer " + res.data.access_token
+
+      localStorage.setItem("accessToken", res.data.data.token)
+      localStorage.setItem("refreshToken", res.data.data.refreshToken)
+
+      return axios
+        .request(newRequest)
+        .then((res) => {
+          return Promise.resolve(res)
+        })
+        .catch((err) => {
+          return Promise.reject(manageErrorResponse(err))
+        })
+    })
+    .catch((err) => {
+      localStorage.removeItem("accessToken")
+      localStorage.removeItem("refreshToken")
+      console.log("session expired")
+      window.location.href = "/"
+      return Promise.reject(manageErrorResponse(err))
+    })
 }
 
 const transformRequestData = (apiDetails: any, requestData: any) => {

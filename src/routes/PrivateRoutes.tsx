@@ -4,17 +4,20 @@ import AppRoutes from "./AppRoutes"
 
 const PrivateRoutes = () => {
   const token: string | null =
-    localStorage.getItem("accessToken") || sessionStorage.getItem("accessToken")
+  localStorage.getItem("accessToken") || sessionStorage.getItem("accessToken")
   const location = useLocation()
-  if (!token && (location?.pathname !== "/register" && location?.pathname !== "/login" )) {
+
+
+  if (!token && location?.pathname !== "/register" && location?.pathname !== "/login") {
+    if ( location?.pathname === "/register") {
+      return <Navigate to='/register' />
+    }
     return <Navigate to='/login' />
   }
-  if (!token && location?.pathname === "/register" ) {
-    return <Navigate to='/register' />
-  }
+ 
   if (
     token &&
-    (location?.pathname === "/login" || 
+    (location?.pathname === "/login" ||
       location?.pathname == "/" ||
       location?.pathname === "/register")
   ) {

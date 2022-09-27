@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom"
-import { Dashboard, Login } from "./components"
+import { Dashboard, Login, Register } from "./components"
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -9,9 +9,14 @@ const AppRoutes = () => {
       children: [],
     },
     {
+      path: "/register",
+      element: <Register />,
+    },
+    {
       path: "/login",
       element: <Login />,
     },
+   
   ])
 
   return routes

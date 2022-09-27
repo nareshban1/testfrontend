@@ -16,7 +16,7 @@ const Login = () => {
       console.log(res)
       if (res.status === 200) {
         localStorage.setItem("accessToken", res.data.data.token)
-        localStorage.setItem("refreshTOken", res.data.data.refreshToken)
+        localStorage.setItem("refreshToken", res.data.data.refreshToken)
       }
     } catch (error) {
       console.log(error)
