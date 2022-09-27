@@ -8,7 +8,12 @@ const PrivateRoutes = () => {
   const location = useLocation()
 
 
+
   if (!token && location?.pathname !== "/register" && location?.pathname !== "/login") {
+    console.log(location.pathname,"PATHNAME")
+    if ( location?.pathname.includes("/verify-email")) {
+      return <Navigate to='/verify-email' />
+    }
     if ( location?.pathname === "/register") {
       return <Navigate to='/register' />
     }
