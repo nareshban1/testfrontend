@@ -24,7 +24,9 @@ const PrivateRoutes = () => {
     token &&
     (location?.pathname === "/login" ||
       location?.pathname == "/" ||
-      location?.pathname === "/register")
+      location?.pathname === "/register" ||
+      location?.pathname === "/verify-email" ||
+      location?.pathname === "/request-verify")
   ) {
     return <Navigate to='/dashboard' />
   }
