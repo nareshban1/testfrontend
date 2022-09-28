@@ -24,7 +24,7 @@ const Login = () => {
   }
 
   return (
-    <div className='mb-5'>
+    <div className=''>
       <h3>Login User</h3>
       <div className='row gx-2 align-items-center'>
         <div className='col-3'>

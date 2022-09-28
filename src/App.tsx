@@ -3,7 +3,7 @@ import PrivateRoutes from "./routes/PrivateRoutes"
 
 function App() {
   return (
-    <div className='vh-100'>
+    <div className='h-screen container bg-slate-900'>
       <PrivateRoutes />
     </div>
   )

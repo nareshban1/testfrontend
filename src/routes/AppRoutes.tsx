@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom"
-import { Dashboard, Login, Register } from "./components"
+import { Dashboard, Login, Register, RequestVerification, VerifyEmail } from "./components"
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -16,7 +16,14 @@ const AppRoutes = () => {
       path: "/login",
       element: <Login />,
     },
-   
+    {
+      path: "/verify-email/:token",
+      element: <VerifyEmail />,
+    },
+    {
+      path: "/request-verify",
+      element: <RequestVerification />,
+    },
   ])
 
   return routes

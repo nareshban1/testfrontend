@@ -52,7 +52,7 @@ const ApiRequest = async (apiDetails: any, reqData: any, params: any) => {
   const transformedRequestData = transformRequestData(apiDetails, reqData)
   const baseURL = process.env.REACT_APP_API_ENDPOINT
   let axiosPayload: AxiosRequestConfig = {
-    baseURL:baseURL,
+    baseURL: baseURL,
     url: controllerName,
     method: requestMethod,
     responseType: "json",

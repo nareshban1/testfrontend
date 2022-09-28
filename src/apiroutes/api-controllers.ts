@@ -14,6 +14,14 @@ export const apiDetails = {
     controllerName: apiLinks.register,
     requestMethod: REQUESTTYPE.POST,
   },
+  verifyEmail: {
+    controllerName: apiLinks.verifyEmail,
+    requestMethod: REQUESTTYPE.POST,
+  },
+  requestEmailVerification: {
+    controllerName: apiLinks.requestEmailVerification,
+    requestMethod: REQUESTTYPE.POST,
+  },
   roleMgmtApiDetails,
   userMgmtApiDetails,
   permissionMgmtApiDetails,
