@@ -22,6 +22,14 @@ export const apiDetails = {
     controllerName: apiLinks.requestEmailVerification,
     requestMethod: REQUESTTYPE.POST,
   },
+  resetPassword: {
+    controllerName: apiLinks.resetPassword,
+    requestMethod: REQUESTTYPE.POST,
+  },
+  requestPasswordChange: {
+    controllerName: apiLinks.requestPasswordChange,
+    requestMethod: REQUESTTYPE.POST,
+  },
   roleMgmtApiDetails,
   userMgmtApiDetails,
   permissionMgmtApiDetails,

@@ -35,7 +35,7 @@ const Login = () => {
             Sign in to your account
           </h2>
         </div>
-        <form className='mt-8 space-y-6' onSubmit={loginUser}>
+        <form className='mt-8 space-y-6'>
           <div className=''>
             <div>
               <label htmlFor='email-address' className='text-gray-900 font-bold '>
@@ -86,7 +86,7 @@ const Login = () => {
 
             <div className='text-sm'>
               <Link
-                to='/forgot-password'
+                to='/request-password-change'
                 className='font-medium text-indigo-600 hover:text-indigo-500'
               >
                 Forgot your password?
@@ -96,7 +96,7 @@ const Login = () => {
 
           <div>
             <button
-              type='submit'
+              onClick={loginUser}
               className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
             >
               Sign in

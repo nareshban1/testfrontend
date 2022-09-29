@@ -25,10 +25,10 @@ const VerifyEmail = () => {
   }, [params])
 
   useEffect(() => {
-    const verifyUserEmail = async (userId: string) => {
+    const verifyUserEmail = async () => {
       setLoading(true)
       try {
-        const res = await ApiRequest(apiDetails.verifyEmail, { userId: userId }, null)
+        const res = await ApiRequest(apiDetails.verifyEmail, { token: params?.token }, null)
         console.log(res)
         if (res.status === 200) {
           console.log("success")
@@ -46,7 +46,7 @@ const VerifyEmail = () => {
       const exp = new Date(+userData?.exp * 1000)
       setValidTill(exp)
       if (now <= exp) {
-        verifyUserEmail(userData.userId)
+        verifyUserEmail()
       }
     }
   }, [userData])
@@ -55,9 +55,7 @@ const VerifyEmail = () => {
     if (now > validTill) {
       return (
         <div className='text-md text-center'>
-          <div className='text-md text-center font-bold'>
-            This Link has Already Expired.
-          </div>
+          <div className='text-md text-center font-bold'>This Link has Already Expired.</div>
           <div className='text-sm text-center'>
             <Link
               to='/request-verify'

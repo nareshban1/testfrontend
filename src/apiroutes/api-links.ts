@@ -4,4 +4,6 @@ export const apiLinks = {
   refreshToken: "/refresh-token",
   verifyEmail: "/verify-email",
   requestEmailVerification: "/request-verify",
+  resetPassword: "/reset-password",
+  requestPasswordChange: "/request-password-change",
 }
