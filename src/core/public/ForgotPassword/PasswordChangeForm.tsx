@@ -3,9 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import { apiDetails } from "../../../apiroutes/api-controllers"
 import ApiRequest from "../../../services/ApiServices/api-services"
 import { decodeJWTToken } from "../../../utils/utils"
-
+import { useFormik } from "formik"
 const PasswordChangeForm = () => {
-  const [password, setPassword] = useState<any>("")
   const params = useParams()
   const [userData, setUserData] = useState<any>(null)
   const [validTill, setValidTill] = useState<Date | string>("")
@@ -25,7 +24,7 @@ const PasswordChangeForm = () => {
     }
   }, [userData])
 
-  const changePassword = async () => {
+  const changePassword = async (password: string) => {
     const detail = {
       password: password,
       token: params?.token,
@@ -40,6 +39,15 @@ const PasswordChangeForm = () => {
       console.log(error)
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+    },
+    onSubmit: (values: any) => {
+      changePassword(values.password)
+    },
+  })
 
   const checkExpiry = () => {
     if (now > validTill) {
@@ -57,39 +65,34 @@ const PasswordChangeForm = () => {
       return (
         <div className='text-md text-center'>
           <div className='text-md text-center'>
-            <form className='mt-8 space-y-6'>
+            <form className='mt-8 space-y-6' onSubmit={formik.handleSubmit}>
               <div className=''>
                 <div>
-                  <label htmlFor='email-address' className='text-gray-900 font-bold '>
+                  <label htmlFor='password' className='text-gray-900 font-bold '>
                     Password
                   </label>
                   <input
-                    id='email-address'
-                    name='email'
-                    type='email'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    id='password'
+                    name='password'
+                    type='password'
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
                     autoComplete='email'
                     required
                     className=' mt-1 block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    placeholder='Email address'
+                    placeholder='Password'
                   />
                 </div>
               </div>
               <div>
                 <button
-                  onClick={changePassword}
+                  type='submit'
                   className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
                   Reset Password
                 </button>
               </div>
             </form>
-          </div>
-          <div className='text-sm text-center mt-3'>
-            <Link to='/login' className='font-medium text-indigo-600 hover:text-indigo-500'>
-              Go to Login
-            </Link>
           </div>
         </div>
       )

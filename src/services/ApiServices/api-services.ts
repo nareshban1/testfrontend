@@ -47,7 +47,7 @@ const getRequestHeaderDetail = (reqBodyType: string, accessToken: string): Heade
 const ApiRequest = async (apiDetails: any, reqData: any, params: any) => {
   const { controllerName, requestMethod, reqBodyType } = apiDetails
   const controller = new AbortController()
-  const accessToken = localStorage.getItem("accessToken") || ""
+  const accessToken = localStorage.getItem("accessToken") ||  sessionStorage.getItem("accessToken")|| ""
   const headers = getRequestHeaderDetail(reqBodyType, accessToken)
   const transformedRequestData = transformRequestData(apiDetails, reqData)
   const baseURL = process.env.REACT_APP_API_ENDPOINT

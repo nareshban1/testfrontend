@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom"
+import PageNotFound from "../core/public/404/PageNotFound"
 import {
   Dashboard,
   Login,
@@ -33,12 +34,16 @@ const AppRoutes = () => {
       element: <RequestVerification />,
     },
     {
-      path: "/reset-password",
+      path: "/reset-password/:token",
       element: <PasswordChangeForm />,
     },
     {
       path: "/request-password-change",
       element: <RequestPasswordChange />,
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
     },
   ])
 

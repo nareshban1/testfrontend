@@ -1,28 +1,43 @@
+import { useFormik } from "formik"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { apiDetails } from "../../../apiroutes/api-controllers"
 import ApiRequest from "../../../services/ApiServices/api-services"
 
 const Login = () => {
-  const [email, setEmail] = useState<any>("")
-  const [password, setPassword] = useState<any>("")
-
-  const loginUser = async () => {
+  const navigate = useNavigate()
+  const [remember,setRemember]=useState(false)
+  const loginUser = async (values: any) => {
     const detail = {
-      email: email,
-      password: password,
+      email: values.email,
+      password: values.password,
     }
     try {
       const res = await ApiRequest(apiDetails.login, { ...detail }, null)
       console.log(res)
       if (res.status === 200) {
-        localStorage.setItem("accessToken", res.data.data.token)
-        localStorage.setItem("refreshToken", res.data.data.refreshToken)
+        if(remember){
+          localStorage.setItem("accessToken", res.data.data.token)
+          localStorage.setItem("refreshToken", res.data.data.refreshToken)
+        }
+        sessionStorage.setItem("accessToken", res.data.data.token)
+        sessionStorage.setItem("refreshToken", res.data.data.refreshToken)
+        navigate("/dashboard")
       }
     } catch (error) {
       console.log(error)
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values: any) => {
+      loginUser(values)
+    },
+  })
 
   return (
     <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -35,7 +50,7 @@ const Login = () => {
             Sign in to your account
           </h2>
         </div>
-        <form className='mt-8 space-y-6'>
+        <form className='mt-8 space-y-6' onSubmit={formik.handleSubmit}>
           <div className=''>
             <div>
               <label htmlFor='email-address' className='text-gray-900 font-bold '>
@@ -46,8 +61,8 @@ const Login = () => {
                 name='email'
                 type='email'
                 autoComplete='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 required
                 className=' mt-1 block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                 placeholder='Email address'
@@ -62,8 +77,8 @@ const Login = () => {
                 name='password'
                 type='password'
                 autoComplete='current-password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
                 className='mt-1 block w-full appearance-none rounded  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                 placeholder='Password'
@@ -76,6 +91,8 @@ const Login = () => {
               <input
                 id='remember-me'
                 name='remember-me'
+                checked={remember}
+                onClick={()=> setRemember(!remember)}
                 type='checkbox'
                 className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
               />
@@ -96,7 +113,7 @@ const Login = () => {
 
           <div>
             <button
-              onClick={loginUser}
+              type='submit'
               className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
             >
               Sign in

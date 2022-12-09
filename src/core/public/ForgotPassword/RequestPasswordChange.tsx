@@ -1,12 +1,11 @@
+import { useFormik } from "formik"
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { apiDetails } from "../../../apiroutes/api-controllers"
 import ApiRequest from "../../../services/ApiServices/api-services"
 
 const RequestPasswordChange = () => {
-  const [email, setEmail] = useState<any>("")
-
-  const requestPasswordChange = async () => {
+  const requestPasswordChange = async (email: string) => {
     const detail = {
       email: email,
     }
@@ -20,6 +19,15 @@ const RequestPasswordChange = () => {
       console.log(error)
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    onSubmit: (values: any) => {
+      requestPasswordChange(values.email)
+    },
+  })
   return (
     <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
       <div className='w-full max-w-md space-y-8 font-barlow '>
@@ -31,18 +39,18 @@ const RequestPasswordChange = () => {
             Request Password Reset
           </h2>
         </div>
-        <form className='mt-8 space-y-6'>
+        <form className='mt-8 space-y-6' onSubmit={formik.handleSubmit}>
           <div className=''>
             <div>
-              <label htmlFor='email-address' className='text-gray-900 font-bold '>
+              <label htmlFor='email' className='text-gray-900 font-bold '>
                 Email address
               </label>
               <input
-                id='email-address'
+                id='email'
                 name='email'
                 type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 autoComplete='email'
                 required
                 className=' mt-1 block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
@@ -52,7 +60,7 @@ const RequestPasswordChange = () => {
           </div>
           <div>
             <button
-              onClick={requestPasswordChange}
+              type='submit'
               className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
             >
               Send Reset Link{" "}
